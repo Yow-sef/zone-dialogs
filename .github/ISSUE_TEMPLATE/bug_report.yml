@@ -1,0 +1,69 @@
+name: Bug report
+description: Report a problem with ZoneDialogs
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Include enough detail to reproduce the problem. Remove tokens, IPs, and other secrets from logs and configs.
+
+        For setup help, join the Discord: https://discord.yowsef.xyz
+
+  - type: input
+    id: zone-dialogs-version
+    attributes:
+      label: ZoneDialogs version
+      placeholder: 1.0.0
+    validations:
+      required: true
+
+  - type: input
+    id: core-version
+    attributes:
+      label: ZonePractice Pro version
+      placeholder: 8.0.0
+    validations:
+      required: true
+
+  - type: input
+    id: paper-version
+    attributes:
+      label: Paper version
+      placeholder: 1.21.11
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Run /dqueue
+        2. Click Sword
+        3. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected result
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual result
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Console log
+      render: shell
+
+  - type: textarea
+    id: config
+    attributes:
+      label: Relevant config
+      description: Paste only the section involved in the bug.
+      render: yaml

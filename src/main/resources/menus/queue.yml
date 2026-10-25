@@ -1,0 +1,149 @@
+dialog:
+  title: ""
+  external-title: "<dark_gray>[ZonePractice]</dark_gray>"
+  pause: false
+  # Paper has no dialog-close event. Keeping Escape disabled is what lets the
+  # plugin know the menu is closed without reopening it on the next refresh.
+  can-close-with-escape: false
+  after-action: "NONE"
+  body-width: 310
+
+header:
+  subtitle: "<aqua><b>Click a kit to join or leave its queue.</b></aqua>"
+  spacer: " "
+
+categories:
+  favorites:
+    display: "<item:golden_helmet> <gold>Favorites</gold>"
+    icon: "GOLDEN_HELMET"
+  weapons:
+    display: "<item:diamond_sword> <aqua>Weapons</aqua>"
+    icon: "DIAMOND_SWORD"
+    ladders:
+      - "spear"
+      - "sword"
+      - "mace"
+      - "axe"
+      - "bow"
+      - "spearelytra"
+      - "spearmace"
+  vanilla:
+    display: "<item:end_crystal> <color:#ff55ff>Vanilla</color>"
+    icon: "END_CRYSTAL"
+    ladders:
+      - "crystal"
+      - "endgame"
+      - "earlygame"
+      - "gapple"
+      - "diamondpotion"
+      - "netheritepotion"
+  skills:
+    display: "<item:nether_star> <color:#55ff55>Skills</color>"
+    icon: "NETHER_STAR"
+    ladders:
+      - "boxing"
+      - "sumo"
+      - "tntsumo"
+      - "battlerush"
+      - "bedwars"
+      - "bridges"
+      - "builduhc"
+      - "mlgrush"
+      - "spleef"
+      - "archer"
+
+controls:
+  show-bot-practice: true
+  toggles:
+    queue-all:
+      checked: "<green>☑ Queue All</green>"
+      unchecked: "<gray>☐ Queue All</gray>"
+    keep-queuing:
+      checked: "<green>☑ Keep Queuing</green>"
+      unchecked: "<gray>☐ Keep Queuing</gray>"
+  buttons:
+    mode-unranked: "<gray>Unranked</gray>"
+    mode-ranked: "<gold>Ranked</gold>"
+    refresh: "<aqua>⟳ Refresh</aqua>"
+    leave-all: "<red>Leave All</red>"
+    bot-practice: "<green>Practice vs Bot</green>"
+
+ladder-display:
+  # Color palette per ladder if desired
+  name-colors:
+    spear: "<aqua>"
+    sword: "<aqua>"
+    mace: "<color:#ff5555>"
+    axe: "<aqua>"
+    bow: "<aqua>"
+    default: "<aqua>"
+
+  # Custom item material mapping per ladder
+  custom-icons:
+    spear: "TRIDENT"
+    sword: "DIAMOND_SWORD"
+    mace: "MACE"
+    axe: "SHIELD"
+    bow: "BOW"
+    crystal: "END_CRYSTAL"
+    endgame: "DRAGON_HEAD"
+    earlygame: "GOLDEN_APPLE"
+    gapple: "ENCHANTED_GOLDEN_APPLE"
+    diamondpotion: "POTION"
+    netheritepotion: "SPLASH_POTION"
+    boxing: "IRON_CHESTPLATE"
+    sumo: "STICK"
+    tntsumo: "TNT"
+    battlerush: "WHITE_WOOL"
+    bedwars: "RED_BED"
+    bridges: "BRICK"
+    builduhc: "LAVA_BUCKET"
+    mlgrush: "STICK"
+    spleef: "IRON_SHOVEL"
+    archer: "BOW"
+
+progress-bar:
+  # Primary progress bar (Division / Rank Elo progression)
+  # 'queued-only' displays bar under queued ladder
+  # 'all' displays bar under every ladder
+  # 'none' disables this bar
+  visibility: "queued-only"
+  length: 10
+  filled-char: "<block:lime_concrete>"
+  empty-char: "<block:black_concrete>"
+  filled-color: ""
+  empty-color: ""
+  show-division-label: false
+  label-format: "<gray>Rank: </gray>{division_color}<b>{division_name}</b> <dark_gray>(</dark_gray><yellow>{current_elo}</yellow><gray>/</gray><gold>{next_elo} Elo</gold><dark_gray>)</dark_gray>"
+
+  # Secondary progress bar (Wins / Required wins milestone progression)
+  wins-bar:
+    enabled: true
+    # 'inherit' follows primary visibility ('queued-only' or 'all'), or 'queued-only', 'all', 'none'
+    visibility: "inherit"
+    length: 10
+    filled-char: "<block:orange_concrete>"
+    empty-char: "<block:black_concrete>"
+    filled-color: ""
+    empty-color: ""
+    # Dynamic milestones towards next win goals:
+    milestones:
+      - 5
+      - 10
+      - 25
+      - 50
+      - 100
+      - 250
+      - 500
+    # Win calculation: 'LADDER_TOTAL' (ranked + unranked), 'LADDER_RANKED', 'LADDER_UNRANKED', 'GLOBAL'
+    count-type: "LADDER_TOTAL"
+    show-label: false
+    label-format: "<gray>Wins: </gray><gold><b>{current_wins}</b></gold><gray>/</gray><yellow>{target_wins}</yellow>"
+
+sounds:
+  tab-switch: "UI_BUTTON_CLICK"
+  mode-toggle: "UI_BUTTON_CLICK"
+  toggle-option: "BLOCK_LEVER_CLICK"
+  favorite-toggle: "BLOCK_NOTE_BLOCK_CHIME"
+  queue-join: "BLOCK_NOTE_BLOCK_PLING"
+  queue-leave: "BLOCK_NOTE_BLOCK_BASS"

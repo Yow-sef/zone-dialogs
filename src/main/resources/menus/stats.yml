@@ -1,0 +1,31 @@
+dialog:
+  title: ""
+  external-title: "<dark_gray>[ZonePractice Profile]</dark_gray>"
+  pause: false
+  can-close-with-escape: true
+  after-action: "NONE"
+  body-width: 310
+
+header:
+  subtitle: "<aqua><b>Player Profile & Statistics</b></aqua>"
+  spacer: " "
+
+overview:
+  show-head-card: true
+  format: |
+    <yellow><b>{player_name}</b></yellow> <dark_gray>•</dark_gray> <green>{division}</green>
+    <gray>Matches Played: <white><b>{matches}</b></white></gray>
+    <gray>Wins: <gold>{wins}</gold> • Losses: <red>{losses}</red> • WLR: <yellow>{wlr}</yellow></gray>
+    <gray>Kills: <green>{kills}</green> • Deaths: <red>{deaths}</red> • KDR: <yellow>{kdr}</yellow></gray>
+    <gray>Best Win Streak: <aqua><b>{best_streak}</b></aqua></gray>
+
+ladders:
+  show-ladders: true
+  show-elo-bar: true
+  show-wins-bar: true
+  bar-length: 10
+  # 0 shows every enabled ladder.
+  max-ladders: 0
+
+sounds:
+  open: "UI_BUTTON_CLICK"

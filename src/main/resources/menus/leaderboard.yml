@@ -1,0 +1,39 @@
+dialog:
+  title: ""
+  external-title: "<dark_gray>[ZonePractice Top]</dark_gray>"
+  pause: false
+  can-close-with-escape: true
+  after-action: "NONE"
+  body-width: 310
+
+header:
+  subtitle: "<gold><b>Leaderboards</b></gold> <gray>• Select ladder and metric</gray>"
+  spacer: " "
+
+metrics:
+  elo:
+    display: "ELO"
+    name: "Elo Rating"
+    icon: "EXPERIENCE_BOTTLE"
+  wins:
+    display: "WINS"
+    name: "Total Wins"
+    icon: "NETHER_STAR"
+  win_streak:
+    display: "STREAK"
+    name: "Win Streak"
+    icon: "BLAZE_POWDER"
+  best_win_streak:
+    display: "BEST"
+    name: "Best Streak"
+    icon: "GOLD_BLOCK"
+
+display:
+  max-entries: 10
+  kits-per-page: 4
+  show-personal-rank-footer: true
+  footer-format: "<dark_gray>------------------------</dark_gray><newline><gray>Your Rank: </gray><gold><b>#{rank}</b></gold> <dark_gray>(</dark_gray><yellow>{score}</yellow><dark_gray>)</dark_gray>"
+
+sounds:
+  tab-switch: "UI_BUTTON_CLICK"
+  metric-switch: "UI_BUTTON_CLICK"

@@ -1,0 +1,35 @@
+name: Feature request
+description: Suggest a change to ZoneDialogs
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For quick questions, use the Discord: https://discord.yowsef.xyz
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve
+      description: Describe the player or server-owner problem, not only the requested control.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you tried
+
+  - type: input
+    id: version
+    attributes:
+      label: ZoneDialogs version
+      placeholder: 1.0.0

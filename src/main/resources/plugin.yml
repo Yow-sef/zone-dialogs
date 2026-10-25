@@ -1,0 +1,46 @@
+name: ZoneDialogs
+version: '${project.version}'
+main: dev.yowsef.zonedialogs.ZoneDialogsPlugin
+api-version: '1.21'
+author: Yowsef
+description: Dialog menus for ZonePractice Pro.
+website: https://discord.yowsef.xyz
+depend:
+  - ZonePracticePro
+softdepend:
+  - PlaceholderAPI
+
+commands:
+  zonedialogs:
+    description: ZoneDialogs management command.
+    aliases: [zd]
+    permission: zonedialogs.use
+  dqueue:
+    description: Open the Dialog queue menu.
+    aliases: [dialogqueue, dq, queuemenu, zqueue]
+    permission: zonedialogs.queue
+  dstats:
+    description: View player stats and division progression.
+    aliases: [dprofile]
+    permission: zonedialogs.stats
+  dtop:
+    description: View leaderboards.
+    aliases: [dleaderboard, dlb]
+    permission: zonedialogs.leaderboard
+
+permissions:
+  zonedialogs.use:
+    description: Access the ZoneDialogs management command.
+    default: op
+  zonedialogs.queue:
+    description: Open and use the dialog queue menu.
+    default: true
+  zonedialogs.stats:
+    description: Open player statistic dialogs.
+    default: true
+  zonedialogs.leaderboard:
+    description: Open leaderboard dialogs.
+    default: true
+  zonedialogs.admin:
+    description: Reload ZoneDialogs and manage its configuration.
+    default: op

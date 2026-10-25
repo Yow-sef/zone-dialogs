@@ -1,0 +1,30 @@
+settings:
+  # Intercepts a bare /queue command and opens this dialog. Arguments such as
+  # /queue sword, /queue leave and /queue accept are left to ZonePractice Pro.
+  override-default-queue-command: true
+  # 0 disables the timer. The menu still refreshes after queue events and actions,
+  # and has a Refresh control. A timer re-shows the dialog and resets its scroll.
+  auto-refresh-interval-ticks: 0
+  # Append ladders that are not listed in any category to the fallback category.
+  auto-detect-ladders: true
+  fallback-category: "skills"
+
+division-thresholds:
+  BRONZE: 0
+  SILVER: 1000
+  GOLD: 1200
+  PLATINUM: 1400
+  DIAMOND: 1600
+  MASTER: 1800
+  GRANDMASTER: 2000
+
+messages:
+  prefix: "<gradient:#38ef7d:#11998e>[ZoneDialogs]</gradient> "
+  no-permission: "<red>Missing permission.</red>"
+  reload-success: "<green>Configuration reloaded.</green>"
+  must-be-player: "<red>Players only.</red>"
+  left-queue: "<gray>Left queue.</gray>"
+  ladder-not-found: "<red>Ladder '{ladder}' not found.</red>"
+  queue-failed: "<red>Could not join that queue right now.</red>"
+  multi-queue-unavailable: "<red>Multi-queue is not enabled for you.</red>"
+  menu-open-failed: "<red>Could not open that menu. Check the server console.</red>"

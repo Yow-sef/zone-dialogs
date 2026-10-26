@@ -43,7 +43,8 @@ public class DStatsCommand implements CommandExecutor, TabCompleter {
             if (found != null) {
                 target = found;
             } else {
-                viewer.sendMessage(ComponentUtils.parse("<red>Player '" + args[0] + "' is not online.</red>"));
+                viewer.sendMessage(ComponentUtils.parse(plugin.getConfigManager().prefix(
+                        plugin.getConfigManager().getMessagePlayerOffline().replace("{player}", args[0]))));
                 return true;
             }
         }

@@ -5,6 +5,7 @@ import dev.yowsef.zonedialogs.session.MenuType;
 import dev.yowsef.zonedialogs.session.PlayerSession;
 import dev.yowsef.zonedialogs.util.ComponentUtils;
 import io.papermc.paper.dialog.Dialog;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -87,6 +88,21 @@ public class LeaderboardMenuController {
     public void handleMainMenu(@NotNull Player player) {
         close(player);
         plugin.getQueueMenuController().openMenu(player);
+    }
+
+    public void handlePlayerStats(@NotNull Player viewer, @NotNull UUID targetId, @NotNull String targetName) {
+        if (!viewer.hasPermission("zonedialogs.stats")) {
+            viewer.sendMessage(ComponentUtils.parse(viewer, plugin.getConfigManager().prefix(
+                    plugin.getConfigManager().getMessageNoPermission())));
+            return;
+        }
+        Player target = Bukkit.getPlayer(targetId);
+        if (target == null || !target.isOnline()) {
+            viewer.sendMessage(ComponentUtils.parse(viewer, plugin.getConfigManager().prefix(
+                    plugin.getConfigManager().getMessagePlayerOffline().replace("{player}", targetName))));
+            return;
+        }
+        plugin.getStatsMenuController().open(viewer, target);
     }
 
     public LeaderboardSession getSession(@NotNull Player player) {

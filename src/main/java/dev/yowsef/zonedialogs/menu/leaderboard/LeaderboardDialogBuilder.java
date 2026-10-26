@@ -233,11 +233,16 @@ public class LeaderboardDialogBuilder {
             LeaderboardMenuConfig config
     ) {
         Component row = ComponentUtils.parse("<dark_gray>Metric: </dark_gray>");
-        boolean first = true;
+        int perRow = Math.max(1, config.getMetricsPerRow());
+        List<Map.Entry<String, LeaderboardMenuConfig.MetricDef>> metrics =
+                new ArrayList<>(config.getMetrics().entrySet());
 
-        for (Map.Entry<String, LeaderboardMenuConfig.MetricDef> entry : config.getMetrics().entrySet()) {
-            if (!first) row = row.append(ComponentUtils.parse("<dark_gray> / </dark_gray>"));
-            first = false;
+        for (int i = 0; i < metrics.size(); i++) {
+            Map.Entry<String, LeaderboardMenuConfig.MetricDef> entry = metrics.get(i);
+            if (i > 0) {
+                row = row.append(ComponentUtils.parse(
+                        i % perRow == 0 ? "<newline>" : "<dark_gray> / </dark_gray>"));
+            }
 
             LeaderboardMenuConfig.MetricDef def = entry.getValue();
             String display = def.display();
@@ -267,27 +272,59 @@ public class LeaderboardDialogBuilder {
             LeaderboardMenuConfig.MetricDef metricDef,
             LeaderboardMenuConfig config
     ) {
-        String rankColor = switch (record.rank()) {
-            case 1 -> "<gold><b>#" + record.rank() + "</b></gold>";
-            case 2 -> "<white><b>#" + record.rank() + "</b></white>";
-            case 3 -> "<color:#cd7f32><b>#" + record.rank() + "</b></color>";
-            default -> "<gray>#" + record.rank() + "</gray>";
-        };
-
         String metricName = metricDef != null ? metricDef.name() : "Score";
-        Component line = Component.empty();
-        if (config.isShowPlayerHeads()) {
-            String head = headTag(record.playerName());
-            if (!head.isEmpty()) {
-                line = line.append(ComponentUtils.parse(player, head)).append(Component.space());
-            }
+        boolean self = (record.playerId() != null && record.playerId().equals(player.getUniqueId()))
+                || record.playerName().equalsIgnoreCase(player.getName());
+
+        String format = config.getRowFormat();
+        if (format == null || format.isBlank()) {
+            format = "{head}{rank_color}<b>{rank}</b> {player}{you} <dark_gray>-</dark_gray> <white>{score}</white> <gray>{metric}</gray>";
         }
-        line = line.append(ComponentUtils.parse(player, rankColor + " "))
-                .append(Component.text(record.playerName(), NamedTextColor.WHITE).decorate(TextDecoration.BOLD))
-                .append(ComponentUtils.parse("<dark_gray> - </dark_gray><white>" + record.score()
-                        + "</white> <gray>" + metricName + "</gray>"));
+
+        String playerColor = self ? "gold" : "white";
+        String head = config.isShowPlayerHeads() ? headTag(record.playerName()) : "";
+        if (head.isEmpty() && config.isShowPlayerHeads() && record.playerId() != null) {
+            head = "<head:" + record.playerId() + ">";
+        }
+        if (!head.isEmpty()) {
+            head += " ";
+        }
+        String row = format
+                .replace("{head}", head)
+                .replace("{rank_color}", rankColor(record.rank()))
+                .replace("{rank_number}", String.valueOf(record.rank()))
+                .replace("{rank}", "#" + record.rank())
+                .replace("{player_name}", record.playerName())
+                .replace("{player}", "<" + playerColor + "><b>" + record.playerName() + "</b></" + playerColor + ">")
+                .replace("{score}", String.valueOf(record.score()))
+                .replace("{metric}", metricName)
+                .replace("{you}", self ? " <gold><b>(You)</b></gold>" : "");
+
+        Component line = ComponentUtils.parse(player, row);
+        if (record.playerId() != null) {
+            boolean online = Bukkit.getPlayer(record.playerId()) != null;
+            line = line
+                    .clickEvent(ClickEvent.callback(audience -> {
+                        if (audience instanceof Player p) {
+                            Bukkit.getScheduler().runTask(plugin, () ->
+                                    controller.handlePlayerStats(p, record.playerId(), record.playerName()));
+                        }
+                    }, ClickCallback.Options.builder().uses(ClickCallback.UNLIMITED_USES).build()))
+                    .hoverEvent(HoverEvent.showText(ComponentUtils.parse(player,
+                            online ? "<gray>Click to view stats</gray>" : "<gray>Player is offline</gray>")));
+        }
 
         return DialogBody.plainMessage(line, config.getBodyWidth());
+    }
+
+    @NotNull
+    private String rankColor(int rank) {
+        return switch (rank) {
+            case 1 -> "<gold>";
+            case 2 -> "<white>";
+            case 3 -> "<color:#cd7f32>";
+            default -> "<gray>";
+        };
     }
 
     @NotNull

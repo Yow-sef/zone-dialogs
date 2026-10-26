@@ -38,6 +38,7 @@ public class ZonePracticeListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onQueueStart(QueueStartEvent event) {
         if (event.isCancelled() || event.getQueue() == null) return;
+        if (!plugin.getConfigManager().isRefreshOnQueue()) return;
         Player player = event.getQueue().getPlayer();
         if (player != null && player.isOnline()) {
             Bukkit.getScheduler().runTaskLater(plugin, () -> plugin.getQueueMenuController().refresh(player), 1L);
@@ -47,6 +48,7 @@ public class ZonePracticeListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void onQueueEnd(QueueEndEvent event) {
         if (event.getQueue() == null) return;
+        if (!plugin.getConfigManager().isRefreshOnQueue()) return;
         Player player = event.getQueue().getPlayer();
         if (player != null && player.isOnline()) {
             Bukkit.getScheduler().runTaskLater(plugin, () -> plugin.getQueueMenuController().refresh(player), 1L);

@@ -181,7 +181,7 @@ public class QueueMenuController {
         }
 
         // ZonePractice updates its state during the same tick.
-        Bukkit.getScheduler().runTaskLater(plugin, () -> refresh(player), 1L);
+        refreshAfterQueueAction(player);
     }
 
     public void handleLeaveQueue(@NotNull Player player) {
@@ -189,7 +189,7 @@ public class QueueMenuController {
         QueueMenuConfig config = plugin.getConfigManager().getQueueMenuConfig();
         ComponentUtils.playSound(player, config.getSoundQueueLeave());
         send(player, plugin.getConfigManager().getMessageLeftQueue());
-        Bukkit.getScheduler().runTaskLater(plugin, () -> refresh(player), 1L);
+        refreshAfterQueueAction(player);
     }
 
     public void handleRefresh(@NotNull Player player) {
@@ -280,6 +280,16 @@ public class QueueMenuController {
             result.add(value.toLowerCase(Locale.ROOT));
         }
         return result;
+    }
+
+    /**
+     * Re-showing a dialog resets its scroll. Queue actions only redraw when the
+     * server owner explicitly enables it; the click sound and core messages still
+     * fire either way.
+     */
+    private void refreshAfterQueueAction(@NotNull Player player) {
+        if (!plugin.getConfigManager().isRefreshOnQueue()) return;
+        Bukkit.getScheduler().runTaskLater(plugin, () -> refresh(player), 1L);
     }
 
     private void send(@NotNull Player player, @NotNull String message) {

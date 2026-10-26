@@ -27,13 +27,35 @@ metrics:
     display: "BEST"
     name: "Best Streak"
     icon: "GOLD_BLOCK"
+  kills:
+    display: "KILLS"
+    name: "Kills"
+    icon: "IRON_SWORD"
+  deaths:
+    display: "DEATHS"
+    name: "Deaths"
+    icon: "SKELETON_SKULL"
+  lose_streak:
+    display: "LOSE"
+    name: "Lose Streak"
+    icon: "REDSTONE"
+  best_lose_streak:
+    display: "BEST LOSE"
+    name: "Best Lose Streak"
+    icon: "REDSTONE_BLOCK"
 
 display:
   max-entries: 10
   kits-per-page: 4
+  metrics-per-row: 4
   show-personal-rank-footer: true
   # Flat 1.21.9+ player-head sprites inline with each row instead of item icons.
   show-player-heads: true
+  # Placeholders: {head} {rank} {rank_number} {rank_color} {player}
+  #               {player_name} {score} {metric} {you}
+  # {rank} includes the #, {rank_number} is the bare number, and {rank_color}
+  # expands to the default gold/white/bronze/gray color for top 3.
+  row-format: "{head}{rank_color}<b>{rank}</b> {player}{you} <dark_gray>-</dark_gray> <white>{score}</white> <gray>{metric}</gray>"
   footer-format: "<dark_gray>------------------------</dark_gray><newline><gray>Your Rank: </gray><gold><b>#{rank}</b></gold> <dark_gray>(</dark_gray><yellow>{score}</yellow><dark_gray>)</dark_gray>"
 
 sounds:

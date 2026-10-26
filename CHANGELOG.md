@@ -7,8 +7,17 @@
 - Use the ZonePractice Pro 2.9.0 `getLeaderboardEntries` and `getLeaderboardEntry` methods instead of reflecting into the core.
 - Show player heads as flat 1.21.9+ sprites inside each leaderboard row.
 - Add `display.show-player-heads` to `menus/leaderboard.yml`.
+- Add kills, deaths, lose streak, and best lose streak metrics.
+- Add `display.row-format` with head, rank, player, score, metric, and `(You)` placeholders.
+- Add `display.metrics-per-row` for wrapping the metric tabs.
+- Click an online player's row to open their stats.
 - Search now fetches the full 100-entry API cap before filtering.
 - Personal scores now come from the leaderboard entry, including global metrics that previously had no score.
+
+### Queue menu
+
+- Add `settings.refresh-on-queue: false` so joining or leaving a queue does not reset the dialog scroll.
+- Add the `player-offline` message used by clickable leaderboard rows.
 
 ### Compatibility
 

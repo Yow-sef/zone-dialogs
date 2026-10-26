@@ -37,7 +37,9 @@ Use Refresh to update counts. The menu also refreshes after queue events, catego
 
 The carousel pages through every enabled ladder plus the global board. Metric tabs are built from `menus/leaderboard.yml`. Search filters the fetched board by player name. Each row starts with a flat player-head sprite and the footer shows your rank and score for the selected metric.
 
-Leaderboards refresh when you change the ladder, metric, page, or search query. Set `display.show-player-heads: false` in `menus/leaderboard.yml` if you prefer rows without heads.
+Rows use the `display.row-format` template. Placeholders are `{head}`, `{rank}`, `{rank_number}`, `{rank_color}`, `{player}`, `{player_name}`, `{score}`, `{metric}`, and `{you}`. Your own row is marked with `(You)` by default. Click an online player's row to open their stats.
+
+Leaderboards refresh when you change the ladder, metric, page, or search query. Set `display.show-player-heads: false` in `menus/leaderboard.yml` if you prefer rows without heads. `display.metrics-per-row` controls how many metric tabs fit on one line.
 
 ## Player stats
 
@@ -98,11 +100,14 @@ The main settings:
 settings:
   override-default-queue-command: true
   auto-refresh-interval-ticks: 0
+  refresh-on-queue: false
   auto-detect-ladders: true
   fallback-category: "skills"
 ```
 
 `auto-refresh-interval-ticks: 0` disables the timer. A timer re-shows the dialog on each tick, which resets the scroll position. Leave it at `0` unless you need live counts and can accept that trade-off.
+
+`refresh-on-queue: false` keeps the queue dialog open after joining or leaving a queue, so its scroll position is preserved. Set it to `true` if you prefer the queued rows to update immediately.
 
 Paper does not expose a dialog-close event. When a refresh timer is active, the queue menu keeps Escape disabled so a closed menu is not reopened by the next refresh. New installs disable Escape in `menus/queue.yml` for the same reason.
 

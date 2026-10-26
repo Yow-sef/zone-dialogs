@@ -23,6 +23,7 @@ public class ConfigManager {
 
     private boolean overrideDefaultQueueCommand = true;
     private int autoRefreshIntervalTicks = 20;
+    private boolean refreshOnQueue = false;
     private boolean autoDetectLadders = true;
     private String fallbackCategory = "skills";
 
@@ -36,6 +37,7 @@ public class ConfigManager {
     private String messageLadderNotFound = "<red>Ladder '{ladder}' was not found.</red>";
     private String messageQueueFailed = "<red>Could not join that queue right now.</red>";
     private String messageMultiQueueUnavailable = "<red>Multi-queue is not enabled for you.</red>";
+    private String messagePlayerOffline = "<red>Player '{player}' is not online.</red>";
     private String messageMenuOpenFailed = "<red>Could not open that menu. Check the server console.</red>";
 
     public ConfigManager(@NotNull ZoneDialogsPlugin plugin) {
@@ -49,6 +51,7 @@ public class ConfigManager {
 
         overrideDefaultQueueCommand = config.getBoolean("settings.override-default-queue-command", true);
         autoRefreshIntervalTicks = Math.max(0, config.getInt("settings.auto-refresh-interval-ticks", 0));
+        refreshOnQueue = config.getBoolean("settings.refresh-on-queue", false);
         autoDetectLadders = config.getBoolean("settings.auto-detect-ladders", true);
         fallbackCategory = config.getString("settings.fallback-category", "skills");
 
@@ -64,6 +67,7 @@ public class ConfigManager {
             messageLadderNotFound = msgSec.getString("ladder-not-found", messageLadderNotFound);
             messageQueueFailed = msgSec.getString("queue-failed", messageQueueFailed);
             messageMultiQueueUnavailable = msgSec.getString("multi-queue-unavailable", messageMultiQueueUnavailable);
+            messagePlayerOffline = msgSec.getString("player-offline", messagePlayerOffline);
             messageMenuOpenFailed = msgSec.getString("menu-open-failed", messageMenuOpenFailed);
         }
 
@@ -152,6 +156,7 @@ public class ConfigManager {
     public StatsMenuConfig getStatsMenuConfig() { return statsMenuConfig; }
     public boolean isOverrideDefaultQueueCommand() { return overrideDefaultQueueCommand; }
     public int getAutoRefreshIntervalTicks() { return autoRefreshIntervalTicks; }
+    public boolean isRefreshOnQueue() { return refreshOnQueue; }
     public boolean isAutoDetectLadders() { return autoDetectLadders; }
     public String getFallbackCategory() { return fallbackCategory; }
     public Map<String, Integer> getDivisionThresholds() { return divisionThresholds; }
@@ -164,6 +169,7 @@ public class ConfigManager {
     public String getMessageLadderNotFound() { return messageLadderNotFound; }
     public String getMessageQueueFailed() { return messageQueueFailed; }
     public String getMessageMultiQueueUnavailable() { return messageMultiQueueUnavailable; }
+    public String getMessagePlayerOffline() { return messagePlayerOffline; }
     public String getMessageMenuOpenFailed() { return messageMenuOpenFailed; }
 
     @NotNull

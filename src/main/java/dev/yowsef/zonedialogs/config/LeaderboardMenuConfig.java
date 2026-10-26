@@ -28,8 +28,10 @@ public class LeaderboardMenuConfig {
     private final Map<String, MetricDef> metrics = new LinkedHashMap<>();
     private int maxEntries = 10;
     private int kitsPerPage = 4;
+    private int metricsPerRow = 4;
     private boolean showPersonalRankFooter = true;
     private boolean showPlayerHeads = true;
+    private String rowFormat = "{head}{rank_color}<b>{rank}</b> {player}{you} <dark_gray>-</dark_gray> <white>{score}</white> <gray>{metric}</gray>";
     private String footerFormat = "<dark_gray>------------------------</dark_gray><newline><gray>Your Rank: </gray><gold><b>#{rank}</b></gold> <dark_gray>(</dark_gray><yellow>{score}</yellow><dark_gray>)</dark_gray>";
 
     private String soundTabSwitch = "UI_BUTTON_CLICK";
@@ -74,8 +76,10 @@ public class LeaderboardMenuConfig {
         if (dispSec != null) {
             maxEntries = Math.max(1, dispSec.getInt("max-entries", maxEntries));
             kitsPerPage = Math.max(1, dispSec.getInt("kits-per-page", kitsPerPage));
+            metricsPerRow = Math.max(1, dispSec.getInt("metrics-per-row", metricsPerRow));
             showPersonalRankFooter = dispSec.getBoolean("show-personal-rank-footer", showPersonalRankFooter);
             showPlayerHeads = dispSec.getBoolean("show-player-heads", showPlayerHeads);
+            rowFormat = dispSec.getString("row-format", rowFormat);
             footerFormat = dispSec.getString("footer-format", footerFormat);
         }
 
@@ -96,8 +100,10 @@ public class LeaderboardMenuConfig {
     public Map<String, MetricDef> getMetrics() { return Collections.unmodifiableMap(metrics); }
     public int getMaxEntries() { return maxEntries; }
     public int getKitsPerPage() { return kitsPerPage; }
+    public int getMetricsPerRow() { return metricsPerRow; }
     public boolean isShowPersonalRankFooter() { return showPersonalRankFooter; }
     public boolean isShowPlayerHeads() { return showPlayerHeads; }
+    public String getRowFormat() { return rowFormat; }
     public String getFooterFormat() { return footerFormat; }
     public String getSoundTabSwitch() { return soundTabSwitch; }
     public String getSoundMetricSwitch() { return soundMetricSwitch; }

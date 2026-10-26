@@ -2,9 +2,13 @@ settings:
   # Intercepts a bare /queue command and opens this dialog. Arguments such as
   # /queue sword, /queue leave and /queue accept are left to ZonePractice Pro.
   override-default-queue-command: true
-  # 0 disables the timer. The menu still refreshes after queue events and actions,
-  # and has a Refresh control. A timer re-shows the dialog and resets its scroll.
+  # 0 disables the timer. The menu still refreshes after menu actions and has a
+  # Refresh control. A timer re-shows the dialog and resets its scroll.
   auto-refresh-interval-ticks: 0
+  # Re-show the queue dialog after joining or leaving a queue. Paper cannot
+  # update an open dialog in place, so every refresh resets its scroll to the top.
+  # Keep this false if players scroll long categories and click kits.
+  refresh-on-queue: false
   # Append ladders that are not listed in any category to the fallback category.
   auto-detect-ladders: true
   fallback-category: "skills"
@@ -27,4 +31,5 @@ messages:
   ladder-not-found: "<red>Ladder '{ladder}' not found.</red>"
   queue-failed: "<red>Could not join that queue right now.</red>"
   multi-queue-unavailable: "<red>Multi-queue is not enabled for you.</red>"
+  player-offline: "<red>Player '{player}' is not online.</red>"
   menu-open-failed: "<red>Could not open that menu. Check the server console.</red>"

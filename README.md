@@ -11,14 +11,14 @@ Native Minecraft dialogs for ZonePractice Pro. Players queue for kits, check lea
 | Component | Version |
 |---|---|
 | Paper | 1.21.11 or newer |
-| ZonePractice Pro | 8.0.0 with API 2.8.0 |
+| ZonePractice Pro | 8.0.0 with API 2.9.0 |
 | Java | 25 |
 
-The plugin uses the native Paper dialog API and ZonePractice Pro methods added in 2.7 and 2.8. It will disable itself when the API version is below 2.8.0.
+The plugin uses the native Paper dialog API and ZonePractice Pro methods added in 2.7, 2.8, and 2.9. It will disable itself when the API version is below 2.9.0.
 
 ## Install
 
-1. Put `ZoneDialogs-1.0.0.jar` in your server's `plugins/` folder.
+1. Put `ZoneDialogs-1.1.0.jar` in your server's `plugins/` folder.
 2. Start the server once. The plugin creates `plugins/ZoneDialogs/`.
 3. Edit `config.yml` and the files in `menus/`.
 4. Run `/zd reload` after changes.
@@ -35,9 +35,9 @@ Use Refresh to update counts. The menu also refreshes after queue events, catego
 
 ## Leaderboards
 
-The carousel pages through every enabled ladder plus the global board. Metric tabs are built from `menus/leaderboard.yml`. Search filters the fetched board by player name. The footer shows your rank and score for the selected metric.
+The carousel pages through every enabled ladder plus the global board. Metric tabs are built from `menus/leaderboard.yml`. Search filters the fetched board by player name. Each row starts with a flat player-head sprite and the footer shows your rank and score for the selected metric.
 
-Leaderboards refresh when you change the ladder, metric, page, or search query.
+Leaderboards refresh when you change the ladder, metric, page, or search query. Set `display.show-player-heads: false` in `menus/leaderboard.yml` if you prefer rows without heads.
 
 ## Player stats
 
@@ -118,13 +118,13 @@ You need JDK 25 and Maven.
 mvn clean package
 ```
 
-The plugin jar is written to `target/ZoneDialogs-1.0.0.jar`. The build resolves Paper and the ZonePractice Pro API from their Maven repositories. The API is `provided` and is not bundled.
+The plugin jar is written to `target/ZoneDialogs-1.1.0.jar`. The build resolves Paper and the ZonePractice Pro API from their Maven repositories. The API is `provided` and is not bundled.
 
 ## Compatibility notes
 
-Top leaderboard entries are not exposed by the public ZonePractice Pro API. ZoneDialogs reads them from the core leaderboard manager and caches the lookup. If a core update changes that internal class, the console logs one warning and leaderboard entries stay empty until the lookup is updated.
+Leaderboard entries and player scores come from the public API added in ZonePractice Pro 2.9.0, so no internal core classes are used.
 
-The public queue, division, ladder, and bot APIs are used everywhere else.
+The public queue, division, ladder, leaderboard, and bot APIs are used everywhere else.
 
 ## Support
 

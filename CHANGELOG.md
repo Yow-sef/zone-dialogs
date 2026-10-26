@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.1.0
+
+### Leaderboards
+
+- Use the ZonePractice Pro 2.9.0 `getLeaderboardEntries` and `getLeaderboardEntry` methods instead of reflecting into the core.
+- Show player heads as flat 1.21.9+ sprites inside each leaderboard row.
+- Add `display.show-player-heads` to `menus/leaderboard.yml`.
+- Search now fetches the full 100-entry API cap before filtering.
+- Personal scores now come from the leaderboard entry, including global metrics that previously had no score.
+
+### Compatibility
+
+- Requires ZonePractice Pro with API level 8 (2.9.0 or newer).
+- Removed the internal leaderboard reflection bridge.
+
 ## 1.0.0
 
 Initial public release.

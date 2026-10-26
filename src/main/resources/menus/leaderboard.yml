@@ -32,6 +32,8 @@ display:
   max-entries: 10
   kits-per-page: 4
   show-personal-rank-footer: true
+  # Flat 1.21.9+ player-head sprites inline with each row instead of item icons.
+  show-player-heads: true
   footer-format: "<dark_gray>------------------------</dark_gray><newline><gray>Your Rank: </gray><gold><b>#{rank}</b></gold> <dark_gray>(</dark_gray><yellow>{score}</yellow><dark_gray>)</dark_gray>"
 
 sounds:

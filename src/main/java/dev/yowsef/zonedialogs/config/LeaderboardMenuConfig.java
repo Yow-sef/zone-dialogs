@@ -29,6 +29,7 @@ public class LeaderboardMenuConfig {
     private int maxEntries = 10;
     private int kitsPerPage = 4;
     private boolean showPersonalRankFooter = true;
+    private boolean showPlayerHeads = true;
     private String footerFormat = "<dark_gray>------------------------</dark_gray><newline><gray>Your Rank: </gray><gold><b>#{rank}</b></gold> <dark_gray>(</dark_gray><yellow>{score}</yellow><dark_gray>)</dark_gray>";
 
     private String soundTabSwitch = "UI_BUTTON_CLICK";
@@ -74,6 +75,7 @@ public class LeaderboardMenuConfig {
             maxEntries = Math.max(1, dispSec.getInt("max-entries", maxEntries));
             kitsPerPage = Math.max(1, dispSec.getInt("kits-per-page", kitsPerPage));
             showPersonalRankFooter = dispSec.getBoolean("show-personal-rank-footer", showPersonalRankFooter);
+            showPlayerHeads = dispSec.getBoolean("show-player-heads", showPlayerHeads);
             footerFormat = dispSec.getString("footer-format", footerFormat);
         }
 
@@ -95,6 +97,7 @@ public class LeaderboardMenuConfig {
     public int getMaxEntries() { return maxEntries; }
     public int getKitsPerPage() { return kitsPerPage; }
     public boolean isShowPersonalRankFooter() { return showPersonalRankFooter; }
+    public boolean isShowPlayerHeads() { return showPlayerHeads; }
     public String getFooterFormat() { return footerFormat; }
     public String getSoundTabSwitch() { return soundTabSwitch; }
     public String getSoundMetricSwitch() { return soundMetricSwitch; }

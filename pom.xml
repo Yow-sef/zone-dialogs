@@ -5,14 +5,14 @@
 
     <groupId>dev.yowsef</groupId>
     <artifactId>ZoneDialogs</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <packaging>jar</packaging>
 
     <name>ZoneDialogs</name>
     <description>Paper dialog queue menus for ZonePractice Pro.</description>
 
     <properties>
-        <!-- ZonePracticePro API 2.8 is built for Java 25. -->
+        <!-- ZonePracticePro API 2.9 is built for Java 25. -->
         <maven.compiler.release>25</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -45,7 +45,7 @@
         <dependency>
             <groupId>com.github.ZoneDevelopement</groupId>
             <artifactId>ZonePracticePro-Api</artifactId>
-            <version>2.8.0</version>
+            <version>2.9.0</version>
             <scope>provided</scope>
         </dependency>
 

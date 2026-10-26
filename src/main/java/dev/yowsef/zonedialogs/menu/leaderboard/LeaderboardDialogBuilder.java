@@ -1,5 +1,6 @@
 package dev.yowsef.zonedialogs.menu.leaderboard;
 
+import dev.nandi0813.api.Interface.LeaderboardEntry;
 import dev.yowsef.zonedialogs.ZoneDialogsPlugin;
 import dev.yowsef.zonedialogs.bridge.ZonePracticeBridge;
 import dev.yowsef.zonedialogs.config.LeaderboardMenuConfig;
@@ -11,7 +12,6 @@ import io.papermc.paper.registry.data.dialog.ActionButton;
 import io.papermc.paper.registry.data.dialog.DialogBase;
 import io.papermc.paper.registry.data.dialog.action.DialogAction;
 import io.papermc.paper.registry.data.dialog.body.DialogBody;
-import io.papermc.paper.registry.data.dialog.body.PlainMessageDialogBody;
 import io.papermc.paper.registry.data.dialog.input.DialogInput;
 import io.papermc.paper.registry.data.dialog.type.DialogType;
 import net.kyori.adventure.text.Component;
@@ -21,11 +21,7 @@ import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -74,8 +70,10 @@ public class LeaderboardDialogBuilder {
         bodies.add(DialogBody.plainMessage(sectionTitle, width));
 
         String search = session.getSearchQuery();
-        int fetchLimit = search.isBlank() ? config.getMaxEntries() : 0;
-        List<ZonePracticeBridge.LeaderboardRecord> records = ZonePracticeBridge.getLeaderboardEntries(
+        // The API clamps the limit to 1-100, so a search fetches the whole cap
+        // and filters locally instead of asking for zero entries.
+        int fetchLimit = search.isBlank() ? config.getMaxEntries() : 100;
+        List<LeaderboardEntry> records = ZonePracticeBridge.getLeaderboardEntries(
                 "global".equalsIgnoreCase(ladder) ? null : ladder,
                 metric,
                 fetchLimit
@@ -95,8 +93,8 @@ public class LeaderboardDialogBuilder {
                     width
             ));
         } else {
-            for (ZonePracticeBridge.LeaderboardRecord record : records) {
-                bodies.add(buildRecordBody(player, record, metricDef));
+            for (LeaderboardEntry record : records) {
+                bodies.add(buildRecordBody(player, record, metricDef, config));
             }
         }
 
@@ -265,19 +263,10 @@ public class LeaderboardDialogBuilder {
     @NotNull
     private DialogBody buildRecordBody(
             Player player,
-            ZonePracticeBridge.LeaderboardRecord record,
-            LeaderboardMenuConfig.MetricDef metricDef
+            LeaderboardEntry record,
+            LeaderboardMenuConfig.MetricDef metricDef,
+            LeaderboardMenuConfig config
     ) {
-        ItemStack item = new ItemStack(Material.PLAYER_HEAD);
-        SkullMeta meta = (SkullMeta) item.getItemMeta();
-        if (meta != null) {
-            if (record.playerUuid() != null) {
-                OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(record.playerUuid());
-                meta.setOwningPlayer(offlinePlayer);
-            }
-            item.setItemMeta(meta);
-        }
-
         String rankColor = switch (record.rank()) {
             case 1 -> "<gold><b>#" + record.rank() + "</b></gold>";
             case 2 -> "<white><b>#" + record.rank() + "</b></white>";
@@ -286,13 +275,19 @@ public class LeaderboardDialogBuilder {
         };
 
         String metricName = metricDef != null ? metricDef.name() : "Score";
-        Component line = ComponentUtils.parse(rankColor + " ")
+        Component line = Component.empty();
+        if (config.isShowPlayerHeads()) {
+            String head = headTag(record.playerName());
+            if (!head.isEmpty()) {
+                line = line.append(ComponentUtils.parse(player, head)).append(Component.space());
+            }
+        }
+        line = line.append(ComponentUtils.parse(player, rankColor + " "))
                 .append(Component.text(record.playerName(), NamedTextColor.WHITE).decorate(TextDecoration.BOLD))
                 .append(ComponentUtils.parse("<dark_gray> - </dark_gray><white>" + record.score()
                         + "</white> <gray>" + metricName + "</gray>"));
 
-        PlainMessageDialogBody description = DialogBody.plainMessage(line, 270);
-        return DialogBody.item(item, description, true, true, 16, 16);
+        return DialogBody.plainMessage(line, config.getBodyWidth());
     }
 
     @NotNull
@@ -302,13 +297,6 @@ public class LeaderboardDialogBuilder {
             LeaderboardMenuConfig config,
             LeaderboardMenuConfig.MetricDef metricDef
     ) {
-        ItemStack item = new ItemStack(Material.PLAYER_HEAD);
-        SkullMeta meta = (SkullMeta) item.getItemMeta();
-        if (meta != null) {
-            meta.setOwningPlayer(player);
-            item.setItemMeta(meta);
-        }
-
         String ladder = session.getSelectedLadder();
         String ladderParam = "global".equalsIgnoreCase(ladder) ? null : ladder;
         int rank = ZonePracticeBridge.getPlayerLeaderboardRank(player, ladderParam, session.getSelectedMetric());
@@ -326,8 +314,27 @@ public class LeaderboardDialogBuilder {
                 .replace("{score}", scoreText)
                 .replace("{metric}", metricDef != null ? metricDef.name() : session.getSelectedMetric());
 
-        PlainMessageDialogBody description = DialogBody.plainMessage(ComponentUtils.parse(player, text), 270);
-        return DialogBody.item(item, description, true, true, 16, 16);
+        Component line = Component.empty();
+        if (config.isShowPlayerHeads()) {
+            String head = headTag(player.getName());
+            if (!head.isEmpty()) {
+                line = line.append(ComponentUtils.parse(player, head)).append(Component.space());
+            }
+        }
+        line = line.append(ComponentUtils.parse(player, text));
+        return DialogBody.plainMessage(line, config.getBodyWidth());
+    }
+
+    /**
+     * Flat player-head sprite from 1.21.9 object components. Only valid player
+     * names are turned into tags so a strange board name cannot break the parse.
+     */
+    @NotNull
+    private String headTag(String playerName) {
+        if (playerName == null || !playerName.matches("[A-Za-z0-9_]{1,16}")) {
+            return "";
+        }
+        return "<head:" + playerName + ">";
     }
 
     private ClickEvent callback(java.util.function.Consumer<Player> action) {

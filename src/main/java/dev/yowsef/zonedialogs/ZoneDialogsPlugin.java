@@ -41,8 +41,8 @@ public final class ZoneDialogsPlugin extends JavaPlugin {
         instance = this;
 
         int apiVersion = readApiVersion();
-        if (apiVersion < 7) {
-            getLogger().warning("ZonePractice Pro with API 2.8.0+ required (found API value "
+        if (apiVersion < 8) {
+            getLogger().warning("ZonePractice Pro with API 2.9.0+ required (found API value "
                     + (apiVersion < 0 ? "unknown" : apiVersion) + "). Disabling.");
             getServer().getPluginManager().disablePlugin(this);
             return;

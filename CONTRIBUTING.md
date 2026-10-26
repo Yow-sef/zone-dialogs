@@ -26,11 +26,11 @@ mvn clean package
 
 Keep these rules in mind:
 
-- Use JDK 25. The 2.8 API is compiled for Java 25.
+- Use JDK 25. The 2.9 API is compiled for Java 25.
 - Keep existing config keys working. New options need a default in code.
 - Do not bundle Paper, the ZonePractice Pro API, or the ZonePractice Pro core jar.
 - Use the public ZonePractice Pro API where it exposes the data you need.
-- Isolate any internal core access in one class and log a clear warning when it breaks.
+- Avoid internal core access. The public API is the supported surface.
 - Update `README.md` and `CHANGELOG.md` for changes players or server owners will notice.
 
 ## Commits
